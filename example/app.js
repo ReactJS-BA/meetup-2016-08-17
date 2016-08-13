@@ -4,6 +4,8 @@ import {
   StyleSheet,
   View,
   StatusBar,
+  NativeModules,
+  DeviceEventEmitter,
 } from 'react-native'
 
 import BackgroundImage from './src/components/background-image'
@@ -14,13 +16,37 @@ import WeatherBox from './src/components/weather-box'
 
 import * as weatherService from './src/services/weather'
 
+const Geo = NativeModules.Geo
+
 class App extends Component {
   state = {
-    city: 'madrid',
+    city: 'buenos+aires',
   }
 
   componentDidMount() {
-    this.handleCityChange('buenos+aires')
+    // NOTE: this is not needed anymore since we have the listener
+    // Geo.getCurrentCountry().then(this.handleCountryChange)
+    Geo.stalk()
+  }
+
+  componentWillMount() {
+    DeviceEventEmitter.addListener('countryChanged', this.handleCountryChange)
+  }
+
+  componentWillUnmount() {
+    DeviceEventEmitter.removeListener('countryChanged', this.handleCountryChange)
+  }
+
+  handleCountryChange = (country) => {
+    const cities = {
+      AR: 'buenos+aires',
+      ES: 'madrid',
+      IT: 'milan',
+      EN: 'londres',
+      FR: 'paris',
+    }
+
+    this.handleCityChange(cities[country] || 'buenos+aires')
   }
 
   handleCityChange(city) {
