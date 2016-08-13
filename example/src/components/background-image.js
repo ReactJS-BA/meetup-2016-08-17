@@ -5,7 +5,11 @@ import {
   Animated,
   Easing,
   Image,
+  Dimensions,
+  PixelRatio,
 } from 'react-native'
+
+import RevealView from './reveal-view'
 
 const images = {
   'buenos+aires': require('../images/buenos-aires.jpg'),
@@ -14,6 +18,25 @@ const images = {
   'paris': require('../images/paris.jpg'),
   'londres': require('../images/londres.jpg'),
 }
+
+const pxRatio = PixelRatio.get()
+const h = Dimensions.get('window').height*pxRatio
+const w = Dimensions.get('window').width*pxRatio
+
+const screenDiagonal = Math.sqrt(h*h + w*w)
+
+const FullScreenReveal = (props) => (
+  <RevealView
+    style={styles.fullScreen}
+    visible={props.visible}
+    centerX={0}
+    centerY={0}
+    startRadius={0}
+    endRadius={screenDiagonal*pxRatio}
+    duration={1000}>
+    {props.children}
+  </RevealView>
+)
 
 class BackgroundImage extends Component {
   state = {
@@ -35,18 +58,13 @@ class BackgroundImage extends Component {
   showImageForCity(city) {
     this.setState({
       currentImage: images[city],
+      oldImage: this.state.currentImage,
+      visible: false
     })
-    this.state.opacity.setValue(0)
   }
 
   handleImageLoad() {
-    Animated.timing(
-      this.state.opacity,
-      { toValue: 1, duration: 500, easing: Easing.easeIn }
-    )
-    .start(() => {
-      this.setState({ oldImage: this.state.currentImage })
-    });
+    this.setState({ visible: true })
   }
 
   render() {
@@ -58,14 +76,13 @@ class BackgroundImage extends Component {
           source={oldImage}
           style={styles.fullScreen}
         />
-        <Animated.Image
-          source={currentImage}
-          onLoad={() => this.handleImageLoad()}
-          style={[
-            styles.fullScreen,
-            { opacity: this.state.opacity }
-          ]}
-        />
+        <FullScreenReveal visible={this.state.visible}>
+          <Image
+            source={currentImage}
+            style={styles.fullScreen}
+            onLoad={() => this.handleImageLoad()}
+          />
+        </FullScreenReveal>
       </View>
     )
   }
@@ -80,6 +97,7 @@ const styles = StyleSheet.create({
     left: 0,
     width: null,
     height: null,
+    backgroundColor: 'transparent'
   },
 })
 
