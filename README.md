@@ -1,10 +1,10 @@
 # Meetup React.js en Buenos Aires (17-Ago-2016)
 ## React Native++ - Extendiendo RN con tu código nativo
-En este Meetup continuamos la charla anterior de los chicos de [Underscope](http://underscope.io) y vemos como extender React Native con tu propio código nativo.
+En este Meetup, los chicos de [Underscope](http://underscope.io) continuan la [charla anterior](https://github.com/ReactJS-BA/meetup-2016-06-08) y nos muestran como extender React Native con tu propio código nativo.
 
-> Si no la viste te recomendamos primero la [anterior](https://github.com/ReactJS-BA/meetup-2016-06-08). Ahí vas a encontrar el video, los slides y el ejemplo.
+La presentación de esta charla está [aquí](http://slides.com/vcalvello/extending-react-native/fullscreen) y en la carpeta [example](/example) pueden encontrar el ejemplo que vimos en la demo.
 
-La presentación de esta charla está [aquí](http://slides.com/vcalvello/our-path-to-react-native/fullscreen) y en la carpeta [example](/example) pueden encontrar el ejemplo que vimos en la demo.
+> Si nunca usaste React Native te recomendamos que primero veas el repo de la charla anterior. Ahí vas a encontrar el video, los slides y un ejemplo para empezar con lo básico.
 
 #### Slack de Meetup.js
 
